@@ -58,28 +58,6 @@ No requiere instalación ni build. Alcanza con abrir `index.html` en un navegado
 npx serve .
 ```
 
-## Publicar en GitHub Pages
-
-1. Creá un repositorio nuevo en GitHub (por ejemplo `acordeon-virtual`).
-2. Subí los cuatro archivos de este proyecto a la raíz del repositorio:
-
-   ```bash
-   git init
-   git add index.html styles.css script.js README.md
-   git commit -m "Acordeón virtual interactivo"
-   git branch -M main
-   git remote add origin https://github.com/<tu-usuario>/<tu-repositorio>.git
-   git push -u origin main
-   ```
-
-3. En GitHub, entrá a **Settings → Pages**.
-4. En **Source**, elegí la rama `main` y la carpeta `/ (root)`.
-5. Guardá los cambios. GitHub va a publicar el sitio en unos minutos en:
-
-   ```
-   https://<tu-usuario>.github.io/<tu-repositorio>/
-   ```
-
 ## Compatibilidad
 
 Funciona en cualquier navegador moderno con soporte de Web Audio API y Pointer Events (Chrome, Firefox, Safari y Edge actuales, tanto en escritorio como en dispositivos móviles).
