@@ -1,0 +1,415 @@
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
+
+:root {
+  --color-bg: #150f14;
+  --color-bg-glow: radial-gradient(120% 140% at 50% -10%, #2c1c22 0%, #150f14 55%);
+  --color-case: #241a20;
+  --color-case-edge: #382229;
+  --color-wine: #6f1f2c;
+  --color-wine-dark: #3b0f17;
+  --color-brass: #c9a24b;
+  --color-brass-bright: #eccf82;
+  --color-ivory: #f4ead8;
+  --color-ivory-dim: #d9cbae;
+  --color-ink: #140f13;
+  --color-text: #f2e9da;
+  --color-text-dim: #b7a595;
+
+  --font-display: "Fraunces", "Iowan Old Style", serif;
+  --font-ui: "Work Sans", "Segoe UI", sans-serif;
+
+  --radius-panel: 22px;
+  --radius-key: 14px;
+
+  --bellows-open: 0.3;
+}
+
+@media (prefers-color-scheme: light) {
+  :root { color-scheme: dark; }
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--color-bg-glow), var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(16px, env(safe-area-inset-left, 0px));
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3 { font-family: var(--font-display); margin: 0; }
+
+button { font-family: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--color-brass-bright);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   Header / footer
+   ========================================================================== */
+
+.site-header {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 8px 24px;
+  text-align: center;
+}
+
+.site-header__mark {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--color-brass);
+  margin: 0 0 10px;
+}
+
+.site-header__title {
+  font-size: clamp(2.1rem, 6vw, 3.2rem);
+  font-weight: 600;
+  color: var(--color-ivory);
+  line-height: 1.05;
+}
+
+.site-header__tagline {
+  margin: 14px auto 0;
+  max-width: 46ch;
+  color: var(--color-text-dim);
+  font-size: 1rem;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--color-text-dim);
+  font-size: 0.82rem;
+  padding: 40px 16px 56px;
+}
+
+/* ==========================================================================
+   Controls bar
+   ========================================================================== */
+
+.controls {
+  max-width: 960px;
+  margin: 0 auto 28px;
+  padding: 14px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: linear-gradient(180deg, #2a1d22, #1d1519);
+  border: 1px solid var(--color-case-edge);
+  border-radius: 999px;
+}
+
+.controls__group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.controls__label {
+  font-size: 0.82rem;
+  color: var(--color-text-dim);
+  white-space: nowrap;
+}
+
+#volume {
+  width: 120px;
+  accent-color: var(--color-brass);
+}
+
+.controls__btn {
+  background: var(--color-ink);
+  color: var(--color-ivory);
+  border: 1px solid var(--color-case-edge);
+  border-radius: 10px;
+  min-width: 40px;
+  min-height: 36px;
+  padding: 6px 14px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.08s ease;
+}
+
+.controls__btn:hover { background: #241a1e; }
+.controls__btn:active { transform: scale(0.94); }
+
+.controls__octave-value {
+  min-width: 1.6ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-brass-bright);
+}
+
+.controls__btn--panic {
+  color: var(--color-wine);
+  border-color: var(--color-wine);
+}
+.controls__btn--panic:hover { background: var(--color-wine-dark); color: var(--color-ivory); }
+
+/* ==========================================================================
+   Instrument body
+   ========================================================================== */
+
+.instrument {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1fr auto 1.15fr;
+  align-items: stretch;
+  gap: 18px;
+  background: linear-gradient(155deg, var(--color-case), #180f13 85%);
+  border: 1px solid var(--color-case-edge);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 30px 60px -30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04);
+  touch-action: none;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 10px 6px;
+}
+
+.side__title {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: none;
+  color: var(--color-brass);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.row--chords, .row--upper { padding-left: 26px; }
+
+/* ==========================================================================
+   Keys — shared button styling
+   ========================================================================== */
+
+.key {
+  position: relative;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  color: var(--color-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.15;
+  user-select: none;
+  touch-action: none;
+  transition: transform 0.06s ease, box-shadow 0.1s ease;
+}
+
+.key__hint {
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.key__label {
+  font-size: 0.6rem;
+  opacity: 0.75;
+}
+
+/* Melody keys: ivory, piano-accordion style */
+.key--melody {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-key);
+  background: linear-gradient(180deg, var(--color-ivory), var(--color-ivory-dim));
+  box-shadow: 0 3px 0 #9c8e73, 0 8px 14px -6px rgba(0,0,0,0.6);
+}
+
+.key--melody.active,
+.key--melody:active {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 #9c8e73, 0 3px 8px -4px rgba(0,0,0,0.6);
+  background: linear-gradient(180deg, var(--color-brass-bright), var(--color-brass));
+}
+
+/* Bass / chord keys: round brass-rimmed buttons */
+.key--bass {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: var(--color-ivory);
+  background: radial-gradient(circle at 35% 30%, #46323a, var(--color-ink) 75%);
+  border: 2px solid var(--color-brass);
+  box-shadow: 0 3px 0 #1a1315, 0 8px 14px -6px rgba(0,0,0,0.6);
+}
+
+.key--bass.active,
+.key--bass:active {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 #1a1315, 0 3px 8px -4px rgba(0,0,0,0.6);
+  background: radial-gradient(circle at 35% 30%, var(--color-wine), var(--color-wine-dark) 75%);
+  border-color: var(--color-brass-bright);
+}
+
+.key--chord { width: 58px; height: 58px; }
+
+/* Stagger rows for an offset piano-accordion look */
+.row--lower .key:nth-child(even),
+.row--bass .key:nth-child(even) {
+  transform: translateY(10px);
+}
+.row--upper .key:nth-child(odd),
+.row--chords .key:nth-child(odd) {
+  transform: translateY(-6px);
+}
+.row--lower .key.active:nth-child(even),
+.row--bass .key.active:nth-child(even) { transform: translateY(13px); }
+.row--upper .key.active:nth-child(odd),
+.row--chords .key.active:nth-child(odd) { transform: translateY(-3px); }
+
+/* ==========================================================================
+   Bellows
+   ========================================================================== */
+
+.bellows {
+  width: clamp(48px, 6vw, 84px);
+  align-self: stretch;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 6px;
+}
+
+.bellows__pleats {
+  width: 100%;
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--color-wine) 0px,
+      var(--color-wine) 6px,
+      var(--color-wine-dark) 6px,
+      var(--color-wine-dark) 12px
+    );
+  background-size: calc(24px + var(--bellows-open) * 16px) 100%;
+  border: 2px solid var(--color-brass);
+  box-shadow: inset 0 0 18px rgba(0,0,0,0.5);
+  transition: background-size 0.25s ease;
+  animation: breathe 3.2s ease-in-out infinite;
+}
+
+.bellows.playing .bellows__pleats {
+  animation-duration: 0.9s;
+}
+
+@keyframes breathe {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bellows__pleats { animation: none; }
+}
+
+/* ==========================================================================
+   Hint / legend
+   ========================================================================== */
+
+.hint {
+  max-width: 900px;
+  margin: 18px auto 0;
+  text-align: center;
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+}
+
+.legend {
+  max-width: 960px;
+  margin: 30px auto 0;
+  padding: 4px 20px 20px;
+  color: var(--color-text-dim);
+}
+
+.legend summary {
+  cursor: pointer;
+  color: var(--color-brass);
+  font-size: 0.85rem;
+  padding: 10px 0;
+}
+
+.legend__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.legend h3 {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-brass-bright);
+  margin-bottom: 8px;
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+
+.legend table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.legend td {
+  padding: 3px 6px;
+  border-bottom: 1px solid var(--color-case-edge);
+}
+
+.legend td:first-child {
+  color: var(--color-ivory);
+  font-weight: 600;
+  width: 2.4em;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  .instrument {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "bass"
+      "bellows"
+      "treble";
+  }
+  .side--bass { grid-area: bass; }
+  .bellows { grid-area: bellows; width: 100%; height: 34px; }
+  .side--treble { grid-area: treble; }
+  .row--chords, .row--upper { padding-left: 0; }
+}
+
+@media (max-width: 480px) {
+  .key--melody { width: 42px; height: 42px; }
+  .key--bass { width: 40px; height: 40px; }
+  .key--chord { width: 46px; height: 46px; }
+  .key__hint { font-size: 0.8rem; }
+  .key__label { font-size: 0.52rem; }
+  .row { gap: 6px; }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Acordeón Virtual — Instrumento interactivo</title>
+<meta name="description" content="Acordeón virtual interactivo tocable con mouse, teclado o pantalla táctil, con síntesis de sonido en tiempo real mediante Web Audio API.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <p class="site-header__mark">Fuelle &amp; Teclas</p>
+  <h1 class="site-header__title">Acordeón Virtual</h1>
+  <p class="site-header__tagline">Un instrumento completo, hecho de aire, botones y JavaScript.</p>
+</header>
+
+<main>
+
+  <section class="controls" aria-label="Controles del instrumento">
+    <div class="controls__group">
+      <label class="controls__label" for="volume">Volumen</label>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="0.75">
+    </div>
+
+    <div class="controls__group controls__group--octave" role="group" aria-label="Transportar octava">
+      <span class="controls__label">Octava</span>
+      <button type="button" id="octave-down" class="controls__btn" aria-label="Bajar una octava">−</button>
+      <span class="controls__octave-value" id="octave-value" aria-live="polite">0</span>
+      <button type="button" id="octave-up" class="controls__btn" aria-label="Subir una octava">+</button>
+    </div>
+
+    <button type="button" id="panic" class="controls__btn controls__btn--panic">Silenciar todo</button>
+  </section>
+
+  <section class="instrument" aria-label="Cuerpo del acordeón">
+
+    <div class="side side--bass" aria-label="Mano izquierda: bajos y acordes">
+      <h2 class="side__title">Mano izquierda</h2>
+      <div class="row row--chords" id="row-chords" role="group" aria-label="Botones de acordes"></div>
+      <div class="row row--bass" id="row-bass" role="group" aria-label="Botones de bajo"></div>
+    </div>
+
+    <div class="bellows" id="bellows" aria-hidden="true">
+      <div class="bellows__pleats"></div>
+    </div>
+
+    <div class="side side--treble" aria-label="Mano derecha: melodía">
+      <h2 class="side__title">Mano derecha</h2>
+      <div class="row row--upper" id="row-upper" role="group" aria-label="Fila superior de melodía"></div>
+      <div class="row row--lower" id="row-lower" role="group" aria-label="Fila inferior de melodía"></div>
+    </div>
+
+  </section>
+
+  <section class="hint" aria-hidden="true">
+    <p>Tocá con el mouse, el dedo o el teclado. Deslizá sin soltar para encadenar notas.</p>
+  </section>
+
+  <details class="legend">
+    <summary>Mapa completo de teclado</summary>
+    <div class="legend__grid">
+      <div>
+        <h3>Melodía — fila superior</h3>
+        <table id="legend-upper"></table>
+      </div>
+      <div>
+        <h3>Melodía — fila inferior</h3>
+        <table id="legend-lower"></table>
+      </div>
+      <div>
+        <h3>Bajos</h3>
+        <table id="legend-bass"></table>
+      </div>
+      <div>
+        <h3>Acordes</h3>
+        <table id="legend-chords"></table>
+      </div>
+    </div>
+  </details>
+
+</main>
+
+<footer class="site-footer">
+  <p>Hecho con HTML, CSS y JavaScript puro — sin librerías, sin muestras de audio pregrabadas.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
